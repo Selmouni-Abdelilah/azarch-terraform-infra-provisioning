@@ -9,7 +9,7 @@ variable "cosmosdb_account_name" {
 variable "cosmosdb_database_name" {
   type        = string
   default     = "azarch-orders"
-  description = "The name of the Azure Cosmos DB database."
+  description = "The name of the Azure Cosmos DB database"
 }
 
 # Azure Cosmos DB Container Name
