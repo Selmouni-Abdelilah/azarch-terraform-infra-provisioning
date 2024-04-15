@@ -7,6 +7,8 @@ trigger:
 variables:
   Vm_Username: $(Vm_Username)
   Vm_Passwd: $(Vm_Passwd)
+  Db_Username: $(Db_Username)
+  Db_Passwd: $(Db_Passwd)
 pool:
   vmImage: ubuntu-latest
 
@@ -30,10 +32,11 @@ stages:
       - task: TerraformTaskV4@4
         env:
           Vm_Passwd: $(Vm_Passwd) 
+          Db_Passwd: $(Db_Passwd)
         inputs:
           provider: 'azurerm'
           command: 'plan'
-          commandOptions: '--var azarch-vm_username=$(Vm_Username) --var azarch-vm_passwd=$(Vm_Passwd)  -out $(Build.ArtifactStagingDirectory)/tfplan'
+          commandOptions: '--var azarch-vm_username=$(Vm_Username) --var azarch-vm_passwd=$(Vm_Passwd) --var db_admin_login=$(Db_Username) --var db_admin_password=$(Db_Passwd) -out $(Build.ArtifactStagingDirectory)/tfplan'
           environmentServiceNameAzureRM: 'svc-conn-to-azure'
       - task: PublishBuildArtifacts@1
         inputs:
@@ -48,11 +51,12 @@ stages:
     steps:
     - task: TerraformTaskV4@4
       env:
-        Vm_Passwd: $(Vm_Passwd) 
+        Vm_Passwd: $(Vm_Passwd)
+        Db_Passwd: $(Db_Passwd) 
       inputs:
         provider: 'azurerm'
         command: 'apply'
-        commandOptions: '--var azarch-vm_username=$(Vm_Username) --var azarch-vm_passwd=$(Vm_Passwd) --auto-approve $(Build.ArtifactStagingDirectory)/tfplan'
+        commandOptions: '--var azarch-vm_username=$(Vm_Username) --var azarch-vm_passwd=$(Vm_Passwd) --var db_admin_login=$(Db_Username) --var db_admin_password=$(Db_Passwd) --auto-approve $(Build.ArtifactStagingDirectory)/tfplan'
         environmentServiceNameAzureRM: 'svc-conn-to-azure'
 
 
