@@ -108,3 +108,35 @@ variable "azarch-vm_passwd" {
   sensitive   = true
   description = "The password for accessing the virtual machine."
 }
+variable "service_plan-webapp_name" {
+  type = string
+  default = "azarch-webapp-svc-plan"
+  description = "The name of inventory web app service plan"
+}
+# App SErvice Name
+variable "azarch-webapp-name" {
+  type = string
+  default = "azarchinventorywebapp"
+  description = "The name of inventory web app"
+}
+
+variable "mssql_server_name" {
+  type = string
+  default = "azarch-sql-server"
+  description = "The name of sql server"
+}
+variable "mssql_database_name" {
+  type = string
+  default = "azarch-sql-database"
+  description = "The name of sql databse"
+}
+variable "db_admin_login" {
+  type = string
+  description = "The usernamef or accessing the DB"
+}
+
+variable "db_admin_password" {
+  type = string
+  sensitive = true
+  description = "The password for accessing the DB"
+}
