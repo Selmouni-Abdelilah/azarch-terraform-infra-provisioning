@@ -34,6 +34,7 @@ resource "azurerm_linux_function_app" "azarch-functionapps" {
   }
 
   site_config {
+    always_on = true
     ip_restriction {
       action      = "Allow"
       priority    = 100

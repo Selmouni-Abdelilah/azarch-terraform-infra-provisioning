@@ -132,11 +132,28 @@ variable "mssql_database_name" {
 }
 variable "db_admin_login" {
   type = string
-  description = "The usernamef or accessing the DB"
+  description = "The username for accessing the DB"
 }
 
 variable "db_admin_password" {
   type = string
   sensitive = true
   description = "The password for accessing the DB"
+}
+
+variable "azarch-acr-name" {
+  type = string
+  default = "azarchcontainerRegistry"
+  description = "ACR name"
+}
+variable "azarch-aks_cluster_name" {
+  type = string
+  default = "azarch-aks1"
+  description = "AKS cluster name"
+}
+
+variable "azarch-redis-cache_name"{
+  type = string
+  default = "azarch-redis-cache"
+  description = "Azure Redis Cache name"
 }

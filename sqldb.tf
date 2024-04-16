@@ -1,4 +1,4 @@
-resource "azurerm_mssql_server" "example-2" {
+resource "azurerm_mssql_server" "azarch-mssql-server" {
   name                         = var.mssql_server_name
   resource_group_name          = azurerm_resource_group.azarch-rg.name
   location                     = azurerm_resource_group.azarch-rg.location
@@ -14,9 +14,9 @@ resource "azurerm_mssql_server" "example-2" {
   }
 }
 
-resource "azurerm_mssql_database" "example" {
+resource "azurerm_mssql_database" "azarch-mssql-db" {
   name           = var.mssql_database_name
-  server_id      = azurerm_mssql_server.example-2.id
+  server_id      = azurerm_mssql_server.azarch-mssql-server.id
   collation      = "SQL_Latin1_General_CP1_CI_AS"
   license_type   = "LicenseIncluded"
   max_size_gb    = 2
