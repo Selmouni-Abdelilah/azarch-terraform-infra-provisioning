@@ -24,7 +24,8 @@ stages:
         inputs:
           provider: 'azurerm'
           command: 'init'
-          backendServiceArm: 'svc-conn-to-azure'
+          commandOptions: '-upgrade'
+          backendServiceArm: 'tfstate-svc-conn'
           backendAzureRmResourceGroupName: 'tfstate'
           backendAzureRmStorageAccountName: 'tfstate24429'
           backendAzureRmContainerName: 'tfstate'
