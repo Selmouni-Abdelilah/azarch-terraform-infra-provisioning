@@ -6,6 +6,7 @@ resource "azurerm_mssql_server" "azarch-mssql-server" {
   minimum_tls_version          = "1.2"
   administrator_login = var.db_admin_login
   administrator_login_password = var.db_admin_password
+  public_network_access_enabled = false
 
   azuread_administrator {
     azuread_authentication_only = false
@@ -18,8 +19,9 @@ resource "azurerm_mssql_database" "azarch-mssql-db" {
   name           = var.mssql_database_name
   server_id      = azurerm_mssql_server.azarch-mssql-server.id
   collation      = "SQL_Latin1_General_CP1_CI_AS"
-  license_type   = "LicenseIncluded"
   max_size_gb    = 2
+  min_capacity = 1
   sku_name       = "GP_S_Gen5_1"
+  auto_pause_delay_in_minutes = 60
   zone_redundant = false
 }
