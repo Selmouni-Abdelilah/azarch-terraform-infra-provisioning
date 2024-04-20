@@ -1,7 +1,7 @@
 resource "azurerm_mssql_server" "azarch-mssql-server" {
   name                         = var.mssql_server_name
-  resource_group_name          = azurerm_resource_group.azarch-rg.name
-  location                     = azurerm_resource_group.azarch-rg.location
+  resource_group_name          = data.azurerm_resource_group.azarch-rg.name
+  location                     = data.azurerm_resource_group.azarch-rg.location
   version                      = "12.0"
   minimum_tls_version          = "1.2"
   administrator_login = var.db_admin_login

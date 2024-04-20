@@ -1,15 +1,15 @@
 resource "azurerm_container_registry" "acr" {
   name                = var.azarch-acr-name
-  resource_group_name = azurerm_resource_group.azarch-rg.name
-  location            = azurerm_resource_group.azarch-rg.location
+  resource_group_name = data.azurerm_resource_group.azarch-rg.name
+  location            = data.azurerm_resource_group.azarch-rg.location
   sku                 = "Basic"
   admin_enabled       = true
 }
 # Create Virtual Network
 resource "azurerm_virtual_network" "aksvnet" {
   name                = "aks-network"
-  location            = azurerm_resource_group.azarch-rg.location
-  resource_group_name = azurerm_resource_group.azarch-rg.location
+  location            = data.azurerm_resource_group.azarch-rg.location
+  resource_group_name = data.azurerm_resource_group.azarch-rg.location
   address_space       = ["10.0.0.0/8"]
 }
 
@@ -17,13 +17,13 @@ resource "azurerm_virtual_network" "aksvnet" {
 resource "azurerm_subnet" "aks-default" {
   name                 = "aks-default-subnet"
   virtual_network_name = azurerm_virtual_network.aksvnet.name
-  resource_group_name  = azurerm_resource_group.azarch-rg.name
+  resource_group_name  = data.azurerm_resource_group.azarch-rg.name
   address_prefixes     = ["10.240.0.0/16"]
 }
 resource "azurerm_kubernetes_cluster" "azarch-aks-cluster" {
   name                = var.azarch-aks_cluster_name
-  location            = azurerm_resource_group.azarch-rg.location
-  resource_group_name = azurerm_resource_group.azarch-rg.name
+  location            = data.azurerm_resource_group.azarch-rg.location
+  resource_group_name = data.azurerm_resource_group.azarch-rg.name
   dns_prefix          = "azarchaks1"
   
   sku_tier = "Free"
@@ -45,12 +45,12 @@ resource "azurerm_kubernetes_cluster" "azarch-aks-cluster" {
 # Create private endpoint for SQL server
 resource "azurerm_private_dns_zone" "aks_dns_zone" {
   name                = "akslink.database.windows.net"
-  resource_group_name = azurerm_resource_group.azarch-rg.name
+  resource_group_name = data.azurerm_resource_group.azarch-rg.name
 }
 resource "azurerm_private_endpoint" "aks_endpoint" {
   name                = "private-endpoint-sql-aks"
-  location            = azurerm_resource_group.azarch-rg.location
-  resource_group_name = azurerm_resource_group.azarch-rg.name
+  location            = data.azurerm_resource_group.azarch-rg.location
+  resource_group_name = data.azurerm_resource_group.azarch-rg.name
   subnet_id           = azurerm_subnet.aks-default.id
 
   private_service_connection {

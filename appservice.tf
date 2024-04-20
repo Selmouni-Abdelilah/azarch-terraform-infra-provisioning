@@ -1,13 +1,13 @@
 resource "azurerm_service_plan" "azarch-svc-plan-webapp" {
   name                = var.service_plan-webapp_name
-  resource_group_name = azurerm_resource_group.azarch-rg.name
-  location            = azurerm_resource_group.azarch-rg.location
+  resource_group_name = data.azurerm_resource_group.azarch-rg.name
+  location            = data.azurerm_resource_group.azarch-rg.location
   os_type             = "Linux"
   sku_name            = "B1"
 }
 resource "azurerm_linux_web_app" "azarch-webapp" {
   name                = var.azarch-webapp-name
-  resource_group_name = azurerm_resource_group.azarch-rg.name
+  resource_group_name = data.azurerm_resource_group.azarch-rg.name
   location            = azurerm_service_plan.azarch-svc-plan-webapp.location
   service_plan_id     = azurerm_service_plan.azarch-svc-plan-webapp.id
   app_settings = {
