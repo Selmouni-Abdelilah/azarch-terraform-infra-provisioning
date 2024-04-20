@@ -43,6 +43,11 @@ stages:
   jobs:
   - job: Apply
     steps:
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        buildType: 'current'
+        artifactName: 'tfplan'
+        targetPath: '$(System.DefaultWorkingDirectory)'
     - task: TerraformTaskV4@4
       inputs:
         provider: 'azurerm'
