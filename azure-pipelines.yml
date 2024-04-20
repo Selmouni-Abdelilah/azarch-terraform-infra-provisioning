@@ -30,7 +30,7 @@ stages:
         inputs:
           provider: 'azurerm'
           command: 'plan'
-          commandOptions: '--var azarch-vm_username=$(Vm_Username) --var azarch-vm_passwd=$(Vm_Passwd) --var db_admin_login=$(Db_Username) --var db_admin_password=$(Db_Passwd) -out $(Build.ArtifactStagingDirectory)/tfplan'
+          commandOptions: '-lock=false --var azarch-vm_username=$(Vm_Username) --var azarch-vm_passwd=$(Vm_Passwd) --var db_admin_login=$(Db_Username) --var db_admin_password=$(Db_Passwd) -out $(Build.ArtifactStagingDirectory)/tfplan'
           environmentServiceNameAzureRM: 'svc-conn-to-azure'
       - task: PublishBuildArtifacts@1
         inputs:
