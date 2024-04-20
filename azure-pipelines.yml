@@ -52,7 +52,7 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'apply'
-        commandOptions: '--var azarch-vm_username=$(Vm_Username) --var azarch-vm_passwd=$(Vm_Passwd) --var db_admin_login=$(Db_Username) --var db_admin_password=$(Db_Passwd) --auto-approve $(Build.ArtifactStagingDirectory)/tfplan'
+        commandOptions: '--var azarch-vm_username=$(Vm_Username) --var azarch-vm_passwd=$(Vm_Passwd) --var db_admin_login=$(Db_Username) --var db_admin_password=$(Db_Passwd) --auto-approve $(System.DefaultWorkingDirectory)/tfplan'
         environmentServiceNameAzureRM: 'svc-conn-to-azure'
 
 
