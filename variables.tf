@@ -9,7 +9,7 @@ variable "cosmosdb_account_name" {
 variable "cosmosdb_database_name" {
   type        = string
   default     = "azarch-orders"
-  description = "The name of the Azure Cosmos DB database."
+  description = "The name of the Azure Cosmos DB database"
 }
 
 # Azure Cosmos DB Container Name
@@ -107,4 +107,53 @@ variable "azarch-vm_passwd" {
   type        = string
   sensitive   = true
   description = "The password for accessing the virtual machine."
+}
+variable "service_plan-webapp_name" {
+  type = string
+  default = "azarch-webapp-svc-plan"
+  description = "The name of inventory web app service plan"
+}
+# App SErvice Name
+variable "azarch-webapp-name" {
+  type = string
+  default = "azarchinventorywebapp"
+  description = "The name of inventory web app"
+}
+
+variable "mssql_server_name" {
+  type = string
+  default = "azarch-sql-server"
+  description = "The name of sql server"
+}
+variable "mssql_database_name" {
+  type = string
+  default = "azarch-sql-database"
+  description = "The name of sql databse"
+}
+variable "db_admin_login" {
+  type = string
+  description = "The username for accessing the DB"
+}
+
+variable "db_admin_password" {
+  type = string
+  sensitive = true
+  description = "The password for accessing the DB"
+}
+
+variable "azarch-acr-name" {
+  type = string
+  default = "azarchcontainerRegistry"
+  description = "ACR name"
+}
+variable "azarch-aks_cluster_name" {
+  type = string
+  default = "azarch-aks1"
+  description = "AKS cluster name"
+}
+
+variable "azarch-redis-cache_name"{
+  type = string
+  default = "azarch-redis-cache"
+  description = "Azure Redis Cache name"
 }

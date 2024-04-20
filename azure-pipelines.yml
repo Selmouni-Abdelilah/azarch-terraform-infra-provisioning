@@ -4,6 +4,7 @@
 trigger:
 - main
 - feature/*
+
 pool:
   vmImage: ubuntu-latest
 
@@ -19,7 +20,8 @@ stages:
         inputs:
           provider: 'azurerm'
           command: 'init'
-          backendServiceArm: 'svc-conn-to-azure'
+          commandOptions: '-upgrade'
+          backendServiceArm: 'tfstate-svc-conn'
           backendAzureRmResourceGroupName: 'tfstate'
           backendAzureRmStorageAccountName: 'tfstate24429'
           backendAzureRmContainerName: 'tfstate'
@@ -28,7 +30,7 @@ stages:
         inputs:
           provider: 'azurerm'
           command: 'plan'
-          commandOptions: '-out $(Build.ArtifactStagingDirectory)/'
+          commandOptions: '--var azarch-vm_username=$(Vm_Username) --var azarch-vm_passwd=$(Vm_Passwd) --var db_admin_login=$(Db_Username) --var db_admin_password=$(Db_Passwd) -out $(Build.ArtifactStagingDirectory)/tfplan'
           environmentServiceNameAzureRM: 'svc-conn-to-azure'
       - task: PublishBuildArtifacts@1
         inputs:
@@ -45,7 +47,7 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'apply'
-        commandOptions: '$(Build.ArtifactStagingDirectory)/tfplan'
+        commandOptions: '--var azarch-vm_username=$(Vm_Username) --var azarch-vm_passwd=$(Vm_Passwd) --var db_admin_login=$(Db_Username) --var db_admin_password=$(Db_Passwd) --auto-approve $(Build.ArtifactStagingDirectory)/tfplan'
         environmentServiceNameAzureRM: 'svc-conn-to-azure'
 
 

@@ -36,7 +36,7 @@ resource "azurerm_network_security_rule" "azarch-vm-nsg-rules" {
 resource "azurerm_network_interface" "azarch-vm-nic" {
   name                = "vm-nic"
   location            = azurerm_resource_group.azarch-rg.location
-  resource_group_name = azurerm_resource_group.azarch-rg.location
+  resource_group_name = azurerm_resource_group.azarch-rg.name
 
   ip_configuration {
     name                          = "internal"
@@ -49,7 +49,7 @@ resource "azurerm_windows_virtual_machine" "azarch-vm" {
   name                = var.azarch-vm_name
   resource_group_name = azurerm_resource_group.azarch-rg.name
   location            = azurerm_resource_group.azarch-rg.location
-  size                = "Standard B2s"
+  size                = "Standard_B2s"
   admin_username      = var.azarch-vm_username
   admin_password      = var.azarch-vm_passwd
   network_interface_ids = [
@@ -68,3 +68,28 @@ resource "azurerm_windows_virtual_machine" "azarch-vm" {
     version   = "latest"
   }
 }
+
+# Create private endpoint for SQL server
+resource "azurerm_private_dns_zone" "vm_dns_zone" {
+  name                = "vmlink.database.windows.net"
+  resource_group_name = azurerm_resource_group.azarch-rg.name
+}
+resource "azurerm_private_endpoint" "vm_endpoint" {
+  name                = "private-endpoint-sql-vm"
+  location            = azurerm_resource_group.azarch-rg.location
+  resource_group_name = azurerm_resource_group.azarch-rg.name
+  subnet_id           = azurerm_subnet.azarch-vm-subnet.id
+
+  private_service_connection {
+    name                           = "vm-serviceconnection"
+    private_connection_resource_id = azurerm_mssql_server.azarch-mssql-server.id
+    subresource_names              = ["sqlServer"]
+    is_manual_connection           = false
+  }
+
+  private_dns_zone_group {
+    name                 = "dns-zone-group"
+    private_dns_zone_ids = [azurerm_private_dns_zone.vm_dns_zone.id]
+  }
+}
+
