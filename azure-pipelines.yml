@@ -51,6 +51,16 @@ stages:
     - task: TerraformTaskV4@4
       inputs:
         provider: 'azurerm'
+        command: 'init'
+        commandOptions: '-upgrade'
+        backendServiceArm: 'tfstate-svc-conn'
+        backendAzureRmResourceGroupName: 'tfstate'
+        backendAzureRmStorageAccountName: 'tfstate24429'
+        backendAzureRmContainerName: 'tfstate'
+        backendAzureRmKey: 'terraform.tfstate'
+    - task: TerraformTaskV4@4
+      inputs:
+        provider: 'azurerm'
         command: 'apply'
         commandOptions: '--auto-approve $(System.DefaultWorkingDirectory)/tfplan'
         environmentServiceNameAzureRM: 'svc-conn-to-azure'
