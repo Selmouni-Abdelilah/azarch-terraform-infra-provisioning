@@ -65,7 +65,7 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'apply'
-        commandOptions: '--auto-approve $(System.DefaultWorkingDirectory)/tfplan'
+        commandOptions: '-lock=false --auto-approve $(System.DefaultWorkingDirectory)/tfplan'
         environmentServiceNameAzureRM: 'svc-conn-to-azure'
 
 
