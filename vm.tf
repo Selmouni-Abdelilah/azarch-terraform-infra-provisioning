@@ -52,6 +52,9 @@ resource "azurerm_windows_virtual_machine" "azarch-vm" {
   size                = "Standard_B2s"
   admin_username      = var.azarch-vm_username
   admin_password      = var.azarch-vm_passwd
+  identity {
+    type = "SystemAssigned"    
+  }
   network_interface_ids = [
     azurerm_network_interface.azarch-vm-nic.id,
   ]
