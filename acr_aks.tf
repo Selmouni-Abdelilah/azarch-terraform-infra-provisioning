@@ -39,7 +39,7 @@ resource "azurerm_kubernetes_cluster" "azarch-aks-cluster" {
     type = "SystemAssigned"
   }
   lifecycle {
-    ignore_changes = [ default_node_pool ,microsoft_defender]
+    ignore_changes = [ default_node_pool ,microsoft_defender, azure_policy_enabled]
   }
 }
 # Create private endpoint for SQL server

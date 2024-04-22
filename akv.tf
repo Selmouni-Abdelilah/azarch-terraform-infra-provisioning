@@ -11,4 +11,7 @@ resource "azurerm_key_vault" "azarch-key-vault" {
 
   sku_name = "standard"
   enable_rbac_authorization = true
+  lifecycle {
+    ignore_changes = [ soft_delete_retention_days ]
+  }
 }
