@@ -7,7 +7,6 @@ resource "azurerm_key_vault" "azarch-key-vault" {
   enabled_for_disk_encryption = true
   tenant_id                   = data.azurerm_client_config.current.tenant_id
   purge_protection_enabled    = false
-
   sku_name = "standard"
   enable_rbac_authorization = true
 }
