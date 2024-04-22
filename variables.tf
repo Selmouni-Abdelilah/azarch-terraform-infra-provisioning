@@ -157,3 +157,9 @@ variable "azarch-redis-cache_name"{
   default = "azarch-redis-cache"
   description = "Azure Redis Cache name"
 }
+
+variable "azarch-key-vault-name"{
+  type = string
+  default = "azarch-key-vault"
+  description = "Azure Key Vault name"
+}

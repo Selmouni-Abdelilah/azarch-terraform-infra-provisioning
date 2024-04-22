@@ -32,6 +32,14 @@ resource "azurerm_network_security_rule" "azarch-vm-nsg-rules" {
   resource_group_name         = data.azurerm_resource_group.azarch-rg.name
   network_security_group_name = azurerm_network_security_group.azarch-vm-nsg.name
 }
+#VM public IP
+resource "azurerm_public_ip" "vm-pip" {
+  name                = "vm-pip"
+  resource_group_name = data.azurerm_resource_group.azarch-rg.name
+  location            = data.azurerm_resource_group.azarch-rg.location
+  sku = "Standard"
+  allocation_method   = "Static"
+}
 #VM NIC
 resource "azurerm_network_interface" "azarch-vm-nic" {
   name                = "vm-nic"
@@ -42,8 +50,15 @@ resource "azurerm_network_interface" "azarch-vm-nic" {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.azarch-vm-subnet.id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id = azurerm_public_ip.vm-pip.id 
   }
+  
 }
+resource "azurerm_network_interface_security_group_association" "nsg-association" {
+  network_interface_id      = azurerm_network_interface.azarch-vm-nic.id
+  network_security_group_id = azurerm_network_security_group.azarch-vm-nsg.id
+}
+
 #VM
 resource "azurerm_windows_virtual_machine" "azarch-vm" {
   name                = var.azarch-vm_name
@@ -52,6 +67,9 @@ resource "azurerm_windows_virtual_machine" "azarch-vm" {
   size                = "Standard_B2s"
   admin_username      = var.azarch-vm_username
   admin_password      = var.azarch-vm_passwd
+  identity {
+    type = "SystemAssigned"    
+  }
   network_interface_ids = [
     azurerm_network_interface.azarch-vm-nic.id,
   ]
