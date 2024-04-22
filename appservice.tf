@@ -25,5 +25,10 @@ resource "azurerm_linux_web_app" "azarch-webapp" {
     application_stack {
       dotnet_version = "6.0"
     }
+    ip_restriction {
+      action                  = "Allow"
+      priority = 100
+      virtual_network_subnet_id = azurerm_subnet.appgateway-subnet.id
+    }
   }
 }
